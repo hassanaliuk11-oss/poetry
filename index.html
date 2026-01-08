@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ghost in the Code</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #f43f5e; /* Changed to a rose/red for betrayal theme */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            /* Animated background gradient - darker, more moody tones */
+            background: linear-gradient(45deg, #020617, #1e1b4b, #450a0a, #1e1b4b);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 95%;
+            max-width: 800px;
+            padding: clamp(1.5rem, 5vw, 3rem);
+            text-align: center;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 7vw, 3.2rem);
+            margin-bottom: 2rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fb7185, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.03em;
+        }
+
+        .poem-content {
+            font-size: clamp(1rem, 3.5vw, 1.4rem);
+            line-height: 1.9;
+            font-style: italic;
+            color: #e2e8f0;
+        }
+
+        .stanza {
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .stanza:nth-child(2) { animation-delay: 0.6s; }
+        .stanza:nth-child(3) { animation-delay: 1.2s; }
+        .stanza:nth-child(4) { animation-delay: 1.8s; }
+        .stanza:nth-child(5) { animation-delay: 2.4s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .code-snippet {
+            font-family: 'Courier New', Courier, monospace;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 12px 18px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 15px 0;
+            color: #fb7185;
+            font-size: 0.85rem;
+            border-left: 4px solid var(--accent-color);
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.1);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 12px;
+            height: 1.4rem;
+            background: var(--accent-color);
+            margin-left: 5px;
+            animation: blink 1.2s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        footer {
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            opacity: 0.4;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+        }
+
+        /* Subtle tear-drop animation for effect */
+        .tear {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            top: -20px;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>The Ghost</h1>
+        
+        <div class="poem-content">
+            <div class="stanza">
+                We built a world in nested loops,<br>
+                Of promises and constant truths.<br>
+                A sanctuary made of binary lace,<br>
+                Where love was the variable we couldn't replace.
+            </div>
+
+            <div class="stanza">
+                <div class="code-snippet">if (user.promised == true) { trust.initialize(); }</div><br>
+                But a back-door opened in the dead of night,<br>
+                A secret thread hidden from the light.<br>
+                Betrayal is a bug that no one can patch,<br>
+                A broken lock and a stolen latch.
+            </div>
+
+            <div class="stanza">
+                I watch the data bleed across the screen,<br>
+                The cruelest syntax that I’ve ever seen.<br>
+                Tears are the salt that corrodes the core,<br>
+                When "forever" is a value you don't hold anymore.
+            </div>
+
+            <div class="stanza">
+                <div class="code-snippet">ERROR: Access denied to heart.memory</div><br>
+                The screen is blurred by a saltwater haze,<br>
+                Lost in the logic of your hollow maze.<br>
+                You deleted the roots, you severed the link,<br>
+                Leaving me standing on the digital brink.
+            </div>
+
+            <div class="stanza">
+                The console is silent, the server is cold,<br>
+                On a story of love that was never quite told.<br>
+                I’m purging the cache, I’m clearing the view,<br>
+                Writing a script that functions without you.<span class="cursor"></span>
+            </div>
+        </div>
+
+        <footer>
+            End of Session.
+        </footer>
+    </div>
+
+</body>
+</html>
