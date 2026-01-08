@@ -2,253 +2,320 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poetry World | Roses Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    
+    <!-- GOOGLE VERIFICATION -->
+    <meta name="google-site-verification" content="osYdOuuf3r5YsXAVU40owhWn9WxCsDC6NnsboPJs1Qg" />
+    <meta name="google-site-verification" content="googledcf5aa11eb043d8c" />
+    
+    <!-- SEO METADATA -->
+    <title>Hassan Jatoi | Official Author Archive & Digital Library</title>
+    <meta name="description" content="Official Archive of Hassan Jatoi. Author of 'Silent People' and 'Death of Soul'. Discover modern literature and poetry.">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:italic,wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- FIREBASE INTEGRATION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'hassan-jatoi-google-style';
+
+        window.handleSubscribe = async (event) => {
+            event.preventDefault();
+            const emailInput = document.getElementById('sub-email');
+            const statusMsg = document.getElementById('sub-status');
+            const email = emailInput.value.trim();
+            if(!email) return;
+            try {
+                statusMsg.textContent = "Connecting to Google Cloud...";
+                await signInAnonymously(auth);
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'subscribers'), {
+                    email: email,
+                    timestamp: serverTimestamp()
+                });
+                statusMsg.innerHTML = "<span class='text-blue-600'>Subscription activated successfully.</span>";
+                emailInput.value = "";
+                setTimeout(() => { 
+                    document.getElementById('sub-modal').style.display = 'none'; 
+                    statusMsg.textContent = "";
+                }, 2000);
+            } catch (error) {
+                statusMsg.innerHTML = "<span class='text-red-500'>Connection error. Please try again.</span>";
+            }
+        };
+    </script>
+
     <style>
-        body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
-        .fb-shadow { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
-        .active-tab { border-bottom: 3px solid #1877f2; color: #1877f2 !important; }
-        .liked-btn { color: #1877f2 !important; font-weight: bold; }
-        .hover-gray:hover { background-color: rgba(0, 0, 0, 0.05); }
-        .prose-font { font-family: 'Lora', serif; line-height: 1.8; }
+        :root { 
+            --google-blue: #1a73e8; 
+            --google-gray: #5f6368;
+            --google-bg: #f8f9fa;
+            --surface: #ffffff;
+        }
+        
+        body { 
+            background-color: var(--google-bg); 
+            color: #202124; 
+            font-family: 'Roboto', sans-serif; 
+        }
+
+        .font-google { font-family: 'Google Sans', sans-serif; }
+        
+        .font-urdu { 
+            font-family: 'Noto Nastaliq Urdu', serif; 
+            font-style: normal !important;
+            line-height: 3.8;
+            word-spacing: 8px;
+            direction: rtl;
+            font-weight: 400;
+        }
+
+        .search-nav {
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 1px 3px rgba(32,33,36,.28);
+            transition: box-shadow 0.2s;
+        }
+
+        .g-btn-primary {
+            background-color: var(--google-blue);
+            color: white;
+            border-radius: 24px;
+            padding: 10px 24px;
+            font-weight: 500;
+        }
+
+        /* COVER IMAGE ADJUSTMENT */
+        .profile-custom-bg {
+            background-image: url('https://i.ibb.co/mrXqXwZy/rose-bg.jpg'); 
+            background-size: cover;
+            background-position: center center;
+            height: 350px;
+            width: 92%;
+            max-width: 1000px;
+            border-radius: 32px;
+            margin: 20px auto -80px auto;
+            position: relative;
+            opacity: 0.9;
+        }
+
+        .profile-custom-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 20%, var(--google-bg));
+            border-radius: 32px;
+        }
+
+        .urdu-poetry-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            border-radius: 32px;
+            padding: 4.5rem 2.5rem;
+            text-align: center;
+            border: 1px solid #eef0f2;
+            position: relative;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+        }
+        
+        .urdu-poetry-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.07);
+        }
+
+        .decoration-flower {
+            color: #1a73e8;
+            opacity: 0.4;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        #sub-modal { display: none; background: rgba(32,33,36,.6); }
+        
+        .archive-link {
+            transition: all 0.2s;
+            border: 1px solid #dadce0;
+        }
+        .archive-link:hover {
+            background-color: #f1f3f4;
+            border-color: #bdc1c6;
+            transform: scale(1.02);
+        }
     </style>
 </head>
-<body>
-
-    <!-- Navigation -->
-    <nav class="bg-white fb-shadow sticky top-0 z-50 h-14 flex items-center px-4 justify-between">
-        <div class="flex items-center gap-2">
-            <svg viewBox="0 0 36 36" class="fill-[#1877f2]" height="40" width="40"><path d="M15 35.8C15 35.8 15 35.8 15 35.8l0-16.2H10.4V14.4H15v-3.4c0-4.6 2.8-7.1 6.9-7.1 2 0 3.7.1 4.2.2v4.8h-2.9c-2.2 0-2.7 1.1-2.7 2.6v3.3h5.3l-.7 5.2h-4.6V35.8C15 35.8 15 35.8 15 35.8z"></path></svg>
-            <div class="bg-[#f0f2f5] rounded-full px-3 py-2 hidden md:flex items-center">
-                <input type="text" placeholder="Search Poetry World" class="bg-transparent outline-none text-sm w-48">
-            </div>
-        </div>
-        <div class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover-gray cursor-pointer">🔔</div>
-            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover-gray cursor-pointer">💬</div>
-            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=100" class="w-10 h-10 rounded-full border">
-        </div>
-    </nav>
+<body class="antialiased">
 
     <!-- Header -->
-    <div class="bg-white fb-shadow">
+    <header class="fixed top-0 w-full z-[100] px-4 py-4 flex justify-center">
+        <div class="search-nav w-full max-w-3xl flex items-center px-6 py-2 gap-4">
+            <div class="font-google font-bold text-xl flex items-center gap-1">
+                <span class="text-[#4285F4]">H</span><span class="text-[#EA4335]">a</span><span class="text-[#FBBC05]">s</span><span class="text-[#4285F4]">s</span><span class="text-[#34A853]">a</span><span class="text-[#EA4335]">n</span>
+            </div>
+            <div class="h-6 w-[1px] bg-gray-200"></div>
+            <nav class="flex-grow flex gap-4 text-sm font-medium text-gray-600 overflow-x-auto no-scrollbar whitespace-nowrap">
+                <a href="#library" class="hover:text-black">Library</a>
+                <a href="#poetry" class="hover:text-black">Poetry</a>
+                <a href="#network" class="hover:text-black">Network</a>
+            </nav>
+            <button onclick="document.getElementById('sub-modal').style.display='flex'" class="g-btn-primary text-xs py-2 px-6">Follow</button>
+        </div>
+    </header>
+
+    <!-- Hero / Profile -->
+    <section class="pt-28 pb-16 px-6 max-w-5xl mx-auto text-center">
+        <div class="profile-custom-bg"></div>
+        
+        <div class="relative inline-block mb-6">
+            <img src="https://i.ibb.co/XZpNgSJ4/IMG-20251026-WA0025-modified.png" class="w-36 h-36 rounded-full border-4 border-white shadow-2xl mx-auto relative z-10 object-cover bg-white" alt="Hassan Jatoi">
+            <div class="absolute bottom-2 right-2 flex items-center justify-center bg-[#1a73e8] color-white rounded-full w-6 h-6 z-20 shadow-md border-2 border-white text-[10px] text-white">
+                <i class="fas fa-check"></i>
+            </div>
+        </div>
+        
+        <h1 class="font-google text-4xl md:text-5xl font-bold mb-4">Hassan Jatoi</h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed mb-8">
+            Author, Poet & Digital Librarian. Specializing in psychological realism and contemporary literature.
+        </p>
+        <div class="flex justify-center gap-4">
+            <a href="#library" class="g-btn-primary">View Archives</a>
+            <a href="https://wa.me/923083500829" class="px-6 py-2 border border-gray-300 rounded-full font-medium hover:bg-gray-50 transition">Contact Author</a>
+        </div>
+    </section>
+
+    <!-- Urdu Poetry Section (Only remaining poetry) -->
+    <section id="poetry" class="max-w-4xl mx-auto px-6 py-16">
+        <div class="flex flex-col items-center mb-16 text-center">
+            <span class="text-blue-600 font-google font-bold text-xs uppercase tracking-[0.2em] mb-2">Creative Works</span>
+            <h2 class="font-google text-4xl font-bold mb-4">Urdu Poetry</h2>
+            <div class="w-24 h-1 bg-blue-600 rounded-full"></div>
+        </div>
+        
+        <div class="space-y-16" id="urduPoetryContent">
+            <!-- Injected via JS -->
+        </div>
+    </section>
+
+    <!-- Project & Library Links -->
+    <main id="library" class="max-w-6xl mx-auto px-6 py-12 border-t border-gray-100">
+        <div class="flex items-center gap-4 mb-10">
+            <h2 class="font-google text-2xl font-medium">Digital Archive Library</h2>
+            <div class="flex-grow h-[1px] bg-gray-200"></div>
+        </div>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4" id="projectLinks">
+            <!-- All project links injected here -->
+        </div>
+    </main>
+
+    <!-- Network / Socials -->
+    <section id="network" class="bg-white py-20 px-6 border-t border-gray-200">
         <div class="max-w-5xl mx-auto">
-            <!-- Cover Photo: Roses -->
-            <div class="h-48 md:h-80 w-full relative group overflow-hidden rounded-b-lg">
-                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover" alt="Red Roses Cover">
-                <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all"></div>
-                <button onclick="showToast('Updating cover photo...')" class="absolute bottom-4 right-4 bg-white px-3 py-2 rounded-md text-sm font-semibold flex items-center gap-2 shadow-md hover:bg-gray-100">
-                    📷 Edit Cover Photo
-                </button>
+            <div class="text-center mb-16">
+                <h2 class="font-google text-3xl font-bold mb-4">Social Network</h2>
+                <p class="text-gray-500">Official handles and contact points.</p>
             </div>
-            
-            <!-- Profile Info -->
-            <div class="px-4 pb-4 md:flex items-end -mt-12 md:-mt-8 mb-4 gap-4 relative z-10">
-                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white overflow-hidden shadow-lg bg-white">
-                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=400" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-grow mb-4">
-                    <h2 class="text-3xl font-bold">Poetry World</h2>
-                    <p class="text-gray-600 font-semibold" id="totalFollowers">1,200,000 followers • 45 following</p>
-                </div>
-                <div class="flex gap-2 mb-4">
-                    <button id="followBtn" onclick="handleFollow()" class="bg-[#1877f2] text-white px-6 py-2 rounded-md font-bold hover:bg-[#166fe5] transition-all">Follow</button>
-                    <button onclick="showToast('Message sent!')" class="bg-gray-200 text-black px-4 py-2 rounded-md font-semibold hover:bg-gray-300">Message</button>
-                </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="socialGrid">
+                <!-- Social links injected here -->
             </div>
+        </div>
+    </section>
 
-            <!-- Tabs -->
-            <div class="border-t flex px-4">
-                <button class="px-4 py-4 font-semibold active-tab">Posts</button>
-                <button onclick="showToast('About section loading...')" class="px-4 py-4 font-semibold text-gray-600 hover-gray">About</button>
-                <button onclick="showToast('Photos gallery loading...')" class="px-4 py-4 font-semibold text-gray-600 hover-gray">Photos</button>
-            </div>
+    <!-- Footer -->
+    <footer class="py-12 bg-gray-50 border-t border-gray-200 text-center px-6">
+        <p class="text-xs text-gray-400">© 2026 Hassan Jatoi Official Archive. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Modals -->
+    <div id="sub-modal" class="fixed inset-0 z-[3000] flex items-center justify-center p-4">
+        <div class="bg-white rounded-[28px] p-8 max-w-sm w-full shadow-2xl">
+            <h3 class="font-google text-2xl font-medium mb-2">Subscribe</h3>
+            <form onsubmit="handleSubscribe(event)" class="space-y-4">
+                <input type="email" id="sub-email" required placeholder="Enter your email" class="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-blue-500">
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="document.getElementById('sub-modal').style.display='none'" class="px-4 py-2 text-sm font-medium text-gray-600">Cancel</button>
+                    <button type="submit" class="g-btn-primary text-sm">Join Archive</button>
+                </div>
+            </form>
+            <p id="sub-status" class="mt-4 text-xs text-center"></p>
         </div>
     </div>
-
-    <!-- Feed Container -->
-    <div class="max-w-5xl mx-auto px-4 py-4 grid grid-cols-1 md:grid-cols-12 gap-4">
-        <!-- Sidebar -->
-        <div class="md:col-span-5 space-y-4">
-            <div class="bg-white p-4 rounded-lg fb-shadow">
-                <h3 class="text-xl font-bold mb-4">Intro</h3>
-                <p class="text-center italic mb-4">"A rose by any other name would smell as sweet." — Shakespeare</p>
-                <div class="space-y-3 text-gray-700 text-sm">
-                    <div class="flex items-center gap-2">📍 From <strong>London, UK</strong></div>
-                    <div class="flex items-center gap-2">📅 Joined <strong>October 2015</strong></div>
-                    <div class="flex items-center gap-2">✨ Professional <strong>Poetry Blog</strong></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Posts -->
-        <div class="md:col-span-7 space-y-4" id="postFeed">
-            <!-- Create Post -->
-            <div class="bg-white p-4 rounded-lg fb-shadow">
-                <div class="flex gap-2 items-center">
-                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=100" class="w-10 h-10 rounded-full">
-                    <div onclick="showToast('Opening editor...')" class="bg-[#f0f2f5] rounded-full px-4 py-2 flex-grow cursor-pointer text-gray-500 hover:bg-gray-200">
-                        What's your favorite verse?
-                    </div>
-                </div>
-            </div>
-
-            <!-- Dynamic Posts will be injected here -->
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg opacity-0 transition-opacity pointer-events-none z-[100]"></div>
 
     <script>
-        // Real-time State
-        let postsData = [
-            {
-                id: 3,
-                text: `The morning mist clings to the silver river like a secret whispered between lovers at dawn.
-                       I find myself tracing the lines of old letters, feeling the ink like ghost-limbs of a past life.
-                       In the garden, the roses are heavy with dew, bowed under the weight of their own fleeting beauty.
-                       We walk through the quiet hallways of memory, where every shadow holds a fragment of a forgotten song.
-                       Time is a cruel craftsman, carving lines into our skin while filling our hearts with unsaid prayers.
-                       There is a specific kind of silence that only lives in the space between two heartbeats.
-                       I watched the sun sink beneath the horizon today, a burning coin tossed into a deep, violet well.
-                       Perhaps we are all just constellations waiting for someone to connect our lonely points of light.
-                       The wind carries the scent of rain and wet earth, promising a cleansing that the soul desperately craves.
-                       I remember the way the light used to fall across the kitchen table, turning dust into gold.
-                       We are made of stories and salt, of high tides and the long, slow retreat of the ocean.
-                       Every goodbye is a small death, a shedding of a version of ourselves that we will never be again.
-                       The stars do not care for our small sorrows, yet they shine as if they were lit just for us.
-                       In the library of the mind, I am constantly shelving books of things I should have said.
-                       True grace is found in the cracks of a broken spirit, where the light finally finds a way inside.
-                       Let the world be loud; I will stay here, tucked into the fold of this soft and steady afternoon.
-                       There is poetry in the way a leaf falls, surrendered and certain of its eventual return to the soil.
-                       We chase the ghosts of 'what if' until we forget the vibrant 'what is' breathing right beside us.
-                       Hold onto the sparks of joy, for they are the only maps we have through the encroaching dark.
-                       In the end, we are but a collection of moments, tied together with the fragile silk of breath.`,
-                img: "https://images.unsplash.com/photo-1476136230993-88a74599b428?q=80&w=1000",
-                likes: 12500,
-                shares: 3420,
-                comments: 890,
-                isLiked: false,
-                isProse: true
-            },
-            {
-                id: 1,
-                text: "The rose speaks of love silently, in a language known only to the heart.",
-                img: "https://images.unsplash.com/photo-1559563458-527698bf5295?q=80&w=1000",
-                likes: 4502,
-                shares: 124,
-                comments: 56,
-                isLiked: false,
-                isProse: false
-            }
+        const projectLinks = [
+            { t: "Silent People", u: "https://hassanaliuk11-oss.github.io/silent-people/" },
+            { t: "Death of Soul", u: "https://hassanaliuk11-oss.github.io/the-death-of-soul/" },
+            { t: "Lonely Path", u: "https://hassanaliuk11-oss.github.io/The-Lonely-Path/" },
+            { t: "Heart Touching", u: "https://hassanaliuk11-oss.github.io/Heart-Touching/" },
+            { t: "Broken Soul", u: "https://hassanaliuk11-oss.github.io/poetry-book1/" },
+            { t: "The Visionary", u: "https://hassanaliuk11-oss.github.io/Hassanalipoetry-/" },
+            { t: "Silent Archive", u: "https://hassanaliuk11-oss.github.io/The-silent-people-Archive/" }
         ];
 
-        let totalFollowersCount = 1200000;
-        let following = false;
+        const urduPoetry = [
+            `رات نے پھر دروازہ کھٹکھٹایا<br>آہٹ میں کوئی نام نہیں تھا<br>بس خاموشی تھی<br>جو مجھ سے زیادہ جانتی تھی<br>کہ میں جاگ رہا ہوں<br>اور کوئی مجھے یاد نہیں کر رہا`,
+            `تنہائی نے کہا<br>میں تمہاری عادت بن چکی ہوں<br>میں نے پوچھا: کیوں؟<br>وہ مسکرائی<br>کہ تم سب سے بات کرتے ہو<br>مگر خود سے نہیں`,
+            `درد نے آواز نہیں دی<br>بس دل کے کونے میں بیٹھ گیا<br>جیسے کوئی پرانا دکھ<br>جو رونے سے بھی انکار کر دے<br>اور مسکرانے سے بھی`,
+            `کبھی کبھی<br>آہٹیں چیخ بن جاتی ہیں<br>اور چیخیں خاموش<br>میں انہی خاموش چیخوں میں<br>اپنا نام ڈھونڈتا ہوں`
+        ];
 
-        function renderPosts() {
-            const feed = document.getElementById('postFeed');
-            const existingCreatePost = feed.firstElementChild;
-            feed.innerHTML = '';
-            feed.appendChild(existingCreatePost);
+        const socials = [
+            { n: "Facebook", l: "https://www.facebook.com/share/17zubUQBeE/", i: "fa-facebook text-blue-600" },
+            { n: "TikTok", l: "https://www.tiktok.com/@hassanjatoi209", i: "fa-tiktok text-black" },
+            { n: "LinkedIn", l: "https://www.linkedin.com/in/hassanjatoi786", i: "fa-linkedin text-blue-700" },
+            { n: "GitHub", l: "https://github.com/hassanaliuk11-oss", i: "fa-github text-gray-800" },
+            { n: "WhatsApp", l: "https://wa.me/923083500829", i: "fa-whatsapp text-green-600" }
+        ];
 
-            postsData.forEach(post => {
-                const postEl = document.createElement('div');
-                postEl.className = "bg-white rounded-lg fb-shadow overflow-hidden mb-4";
-                postEl.innerHTML = `
-                    <div class="p-4 flex gap-3 items-center">
-                        <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=100" class="w-10 h-10 rounded-full border">
-                        <div>
-                            <p class="font-bold">Poetry World</p>
-                            <p class="text-xs text-gray-500">Just now • 🌎</p>
-                        </div>
-                    </div>
-                    <div class="px-4 pb-3 ${post.isProse ? 'prose-font text-gray-700' : 'italic text-lg leading-relaxed'}">
-                        ${post.isProse ? post.text.split('\n').map(line => `<p class="mb-1">${line.trim()}</p>`).join('') : `"${post.text}"`}
-                    </div>
-                    <img src="${post.img}" class="w-full h-80 object-cover border-y">
-                    
-                    <div class="px-4 py-2 flex justify-between text-gray-500 text-sm border-b">
-                        <div class="flex items-center gap-1">
-                            <span class="bg-[#1877f2] text-white rounded-full p-1 text-[8px]">👍</span>
-                            <span id="like-count-${post.id}">${formatNum(post.likes)}</span>
-                        </div>
-                        <div class="flex gap-3">
-                            <span>${post.comments} comments</span>
-                            <span>${post.shares} shares</span>
-                        </div>
-                    </div>
+        function init() {
+            // Urdu Poetry
+            const poetrySection = document.getElementById('urduPoetryContent');
+            urduPoetry.forEach(p => {
+                const div = document.createElement('div');
+                div.className = "urdu-poetry-card";
+                div.innerHTML = `<span class="decoration-flower">❦</span><div class="font-urdu text-2xl md:text-3xl">${p}</div>`;
+                poetrySection.appendChild(div);
+            });
 
-                    <div class="flex p-1">
-                        <button onclick="handleLike(${post.id})" class="flex-grow py-2 hover-gray rounded-md flex justify-center items-center gap-2 ${post.isLiked ? 'liked-btn' : 'text-gray-600 font-semibold'}">
-                            👍 Like
-                        </button>
-                        <button onclick="handleComment(${post.id})" class="flex-grow py-2 hover-gray rounded-md flex justify-center items-center gap-2 text-gray-600 font-semibold">
-                            💬 Comment
-                        </button>
-                        <button onclick="handleShare(${post.id})" class="flex-grow py-2 hover-gray rounded-md flex justify-center items-center gap-2 text-gray-600 font-semibold">
-                            ↪️ Share
-                        </button>
-                    </div>
+            // Project Links
+            const projGrid = document.getElementById('projectLinks');
+            projectLinks.forEach(p => {
+                const a = document.createElement('a');
+                a.href = p.u; a.target = "_blank";
+                a.className = "archive-link p-4 bg-white rounded-2xl text-center shadow-sm flex flex-col items-center gap-2";
+                a.innerHTML = `
+                    <i class="fas fa-external-link-alt text-xs text-gray-400"></i>
+                    <span class="text-[11px] font-bold text-gray-700">${p.t}</span>
                 `;
-                feed.appendChild(postEl);
+                projGrid.appendChild(a);
+            });
+
+            // Social Grid
+            const socialGrid = document.getElementById('socialGrid');
+            socials.forEach(s => {
+                const a = document.createElement('a');
+                a.href = s.l; a.target = "_blank";
+                a.className = "flex items-center gap-4 p-5 bg-white border border-gray-100 rounded-2xl hover:shadow-md transition";
+                a.innerHTML = `
+                    <div class="w-10 h-10 flex items-center justify-center bg-gray-50 rounded-full">
+                        <i class="fab ${s.i}"></i>
+                    </div>
+                    <span class="font-medium text-sm text-gray-700">${s.n}</span>
+                `;
+                socialGrid.appendChild(a);
             });
         }
 
-        // Logic Functions
-        function handleLike(id) {
-            const post = postsData.find(p => p.id === id);
-            post.isLiked = !post.isLiked;
-            post.likes += post.isLiked ? 1 : -1;
-            renderPosts();
-        }
-
-        function handleShare(id) {
-            const post = postsData.find(p => p.id === id);
-            post.shares += 1;
-            renderPosts();
-            showToast("Shared to your timeline!");
-        }
-
-        function handleComment(id) {
-            const post = postsData.find(p => p.id === id);
-            post.comments += 1;
-            renderPosts();
-            showToast("Comment posted!");
-        }
-
-        function handleFollow() {
-            following = !following;
-            const btn = document.getElementById('followBtn');
-            if (following) {
-                totalFollowersCount++;
-                btn.innerText = "Following";
-                btn.className = "bg-gray-200 text-black px-6 py-2 rounded-md font-bold transition-all";
-            } else {
-                totalFollowersCount--;
-                btn.innerText = "Follow";
-                btn.className = "bg-[#1877f2] text-white px-6 py-2 rounded-md font-bold hover:bg-[#166fe5] transition-all";
-            }
-            document.getElementById('totalFollowers').innerText = `${formatNum(totalFollowersCount)} followers • 45 following`;
-        }
-
-        function formatNum(num) {
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num;
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.innerText = msg;
-            toast.style.opacity = '1';
-            setTimeout(() => toast.style.opacity = '0', 2000);
-        }
-
-        window.onload = renderPosts;
+        window.onload = init;
     </script>
 </body>
 </html>
