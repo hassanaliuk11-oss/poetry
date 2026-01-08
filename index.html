@@ -3,188 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Ghost in the Code</title>
+    <title>Poetry World | Roses Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:italic,wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --text-color: #f8fafc;
-            --accent-color: #f43f5e; /* Changed to a rose/red for betrayal theme */
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            /* Animated background gradient - darker, more moody tones */
-            background: linear-gradient(45deg, #020617, #1e1b4b, #450a0a, #1e1b4b);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .container {
-            width: 95%;
-            max-width: 800px;
-            padding: clamp(1.5rem, 5vw, 3rem);
-            text-align: center;
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 24px;
-            border: 1px solid rgba(244, 63, 94, 0.2);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            margin: 20px;
-        }
-
-        h1 {
-            font-size: clamp(1.8rem, 7vw, 3.2rem);
-            margin-bottom: 2rem;
-            font-weight: 800;
-            background: linear-gradient(to right, #fb7185, #d946ef);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.03em;
-        }
-
-        .poem-content {
-            font-size: clamp(1rem, 3.5vw, 1.4rem);
-            line-height: 1.9;
-            font-style: italic;
-            color: #e2e8f0;
-        }
-
-        .stanza {
-            margin-bottom: 2.5rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-
-        .stanza:nth-child(2) { animation-delay: 0.6s; }
-        .stanza:nth-child(3) { animation-delay: 1.2s; }
-        .stanza:nth-child(4) { animation-delay: 1.8s; }
-        .stanza:nth-child(5) { animation-delay: 2.4s; }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .code-snippet {
-            font-family: 'Courier New', Courier, monospace;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 12px 18px;
-            border-radius: 10px;
-            display: inline-block;
-            margin: 15px 0;
-            color: #fb7185;
-            font-size: 0.85rem;
-            border-left: 4px solid var(--accent-color);
-            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.1);
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 12px;
-            height: 1.4rem;
-            background: var(--accent-color);
-            margin-left: 5px;
-            animation: blink 1.2s infinite;
-            vertical-align: middle;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        footer {
-            margin-top: 3rem;
-            font-size: 0.85rem;
-            opacity: 0.4;
-            letter-spacing: 0.1rem;
-            text-transform: uppercase;
-        }
-
-        /* Subtle tear-drop animation for effect */
-        .tear {
-            position: absolute;
-            width: 2px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.3);
-            top: -20px;
-            animation: fall 3s linear infinite;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(110vh); }
-        }
+        body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
+        .fb-shadow { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+        .active-tab { border-bottom: 3px solid #1877f2; color: #1877f2 !important; }
+        .liked-btn { color: #1877f2 !important; font-weight: bold; }
+        .hover-gray:hover { background-color: rgba(0, 0, 0, 0.05); }
+        .prose-font { font-family: 'Lora', serif; line-height: 1.8; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>The Ghost</h1>
-        
-        <div class="poem-content">
-            <div class="stanza">
-                We built a world in nested loops,<br>
-                Of promises and constant truths.<br>
-                A sanctuary made of binary lace,<br>
-                Where love was the variable we couldn't replace.
+    <!-- Navigation -->
+    <nav class="bg-white fb-shadow sticky top-0 z-50 h-14 flex items-center px-4 justify-between">
+        <div class="flex items-center gap-2">
+            <svg viewBox="0 0 36 36" class="fill-[#1877f2]" height="40" width="40"><path d="M15 35.8C15 35.8 15 35.8 15 35.8l0-16.2H10.4V14.4H15v-3.4c0-4.6 2.8-7.1 6.9-7.1 2 0 3.7.1 4.2.2v4.8h-2.9c-2.2 0-2.7 1.1-2.7 2.6v3.3h5.3l-.7 5.2h-4.6V35.8C15 35.8 15 35.8 15 35.8z"></path></svg>
+            <div class="bg-[#f0f2f5] rounded-full px-3 py-2 hidden md:flex items-center">
+                <input type="text" placeholder="Search Poetry World" class="bg-transparent outline-none text-sm w-48">
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover-gray cursor-pointer">🔔</div>
+            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover-gray cursor-pointer">💬</div>
+            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=100" class="w-10 h-10 rounded-full border">
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="bg-white fb-shadow">
+        <div class="max-w-5xl mx-auto">
+            <!-- Cover Photo: Roses -->
+            <div class="h-48 md:h-80 w-full relative group overflow-hidden rounded-b-lg">
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover" alt="Red Roses Cover">
+                <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all"></div>
+                <button onclick="showToast('Updating cover photo...')" class="absolute bottom-4 right-4 bg-white px-3 py-2 rounded-md text-sm font-semibold flex items-center gap-2 shadow-md hover:bg-gray-100">
+                    📷 Edit Cover Photo
+                </button>
+            </div>
+            
+            <!-- Profile Info -->
+            <div class="px-4 pb-4 md:flex items-end -mt-12 md:-mt-8 mb-4 gap-4 relative z-10">
+                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white overflow-hidden shadow-lg bg-white">
+                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=400" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-grow mb-4">
+                    <h2 class="text-3xl font-bold">Poetry World</h2>
+                    <p class="text-gray-600 font-semibold" id="totalFollowers">1,200,000 followers • 45 following</p>
+                </div>
+                <div class="flex gap-2 mb-4">
+                    <button id="followBtn" onclick="handleFollow()" class="bg-[#1877f2] text-white px-6 py-2 rounded-md font-bold hover:bg-[#166fe5] transition-all">Follow</button>
+                    <button onclick="showToast('Message sent!')" class="bg-gray-200 text-black px-4 py-2 rounded-md font-semibold hover:bg-gray-300">Message</button>
+                </div>
             </div>
 
-            <div class="stanza">
-                <div class="code-snippet">if (user.promised == true) { trust.initialize(); }</div><br>
-                But a back-door opened in the dead of night,<br>
-                A secret thread hidden from the light.<br>
-                Betrayal is a bug that no one can patch,<br>
-                A broken lock and a stolen latch.
+            <!-- Tabs -->
+            <div class="border-t flex px-4">
+                <button class="px-4 py-4 font-semibold active-tab">Posts</button>
+                <button onclick="showToast('About section loading...')" class="px-4 py-4 font-semibold text-gray-600 hover-gray">About</button>
+                <button onclick="showToast('Photos gallery loading...')" class="px-4 py-4 font-semibold text-gray-600 hover-gray">Photos</button>
             </div>
+        </div>
+    </div>
 
-            <div class="stanza">
-                I watch the data bleed across the screen,<br>
-                The cruelest syntax that I’ve ever seen.<br>
-                Tears are the salt that corrodes the core,<br>
-                When "forever" is a value you don't hold anymore.
-            </div>
-
-            <div class="stanza">
-                <div class="code-snippet">ERROR: Access denied to heart.memory</div><br>
-                The screen is blurred by a saltwater haze,<br>
-                Lost in the logic of your hollow maze.<br>
-                You deleted the roots, you severed the link,<br>
-                Leaving me standing on the digital brink.
-            </div>
-
-            <div class="stanza">
-                The console is silent, the server is cold,<br>
-                On a story of love that was never quite told.<br>
-                I’m purging the cache, I’m clearing the view,<br>
-                Writing a script that functions without you.<span class="cursor"></span>
+    <!-- Feed Container -->
+    <div class="max-w-5xl mx-auto px-4 py-4 grid grid-cols-1 md:grid-cols-12 gap-4">
+        <!-- Sidebar -->
+        <div class="md:col-span-5 space-y-4">
+            <div class="bg-white p-4 rounded-lg fb-shadow">
+                <h3 class="text-xl font-bold mb-4">Intro</h3>
+                <p class="text-center italic mb-4">"A rose by any other name would smell as sweet." — Shakespeare</p>
+                <div class="space-y-3 text-gray-700 text-sm">
+                    <div class="flex items-center gap-2">📍 From <strong>London, UK</strong></div>
+                    <div class="flex items-center gap-2">📅 Joined <strong>October 2015</strong></div>
+                    <div class="flex items-center gap-2">✨ Professional <strong>Poetry Blog</strong></div>
+                </div>
             </div>
         </div>
 
-        <footer>
-            End of Session.
-        </footer>
+        <!-- Posts -->
+        <div class="md:col-span-7 space-y-4" id="postFeed">
+            <!-- Create Post -->
+            <div class="bg-white p-4 rounded-lg fb-shadow">
+                <div class="flex gap-2 items-center">
+                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=100" class="w-10 h-10 rounded-full">
+                    <div onclick="showToast('Opening editor...')" class="bg-[#f0f2f5] rounded-full px-4 py-2 flex-grow cursor-pointer text-gray-500 hover:bg-gray-200">
+                        What's your favorite verse?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Posts will be injected here -->
+        </div>
     </div>
 
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg opacity-0 transition-opacity pointer-events-none z-[100]"></div>
+
+    <script>
+        // Real-time State
+        let postsData = [
+            {
+                id: 3,
+                text: `The morning mist clings to the silver river like a secret whispered between lovers at dawn.
+                       I find myself tracing the lines of old letters, feeling the ink like ghost-limbs of a past life.
+                       In the garden, the roses are heavy with dew, bowed under the weight of their own fleeting beauty.
+                       We walk through the quiet hallways of memory, where every shadow holds a fragment of a forgotten song.
+                       Time is a cruel craftsman, carving lines into our skin while filling our hearts with unsaid prayers.
+                       There is a specific kind of silence that only lives in the space between two heartbeats.
+                       I watched the sun sink beneath the horizon today, a burning coin tossed into a deep, violet well.
+                       Perhaps we are all just constellations waiting for someone to connect our lonely points of light.
+                       The wind carries the scent of rain and wet earth, promising a cleansing that the soul desperately craves.
+                       I remember the way the light used to fall across the kitchen table, turning dust into gold.
+                       We are made of stories and salt, of high tides and the long, slow retreat of the ocean.
+                       Every goodbye is a small death, a shedding of a version of ourselves that we will never be again.
+                       The stars do not care for our small sorrows, yet they shine as if they were lit just for us.
+                       In the library of the mind, I am constantly shelving books of things I should have said.
+                       True grace is found in the cracks of a broken spirit, where the light finally finds a way inside.
+                       Let the world be loud; I will stay here, tucked into the fold of this soft and steady afternoon.
+                       There is poetry in the way a leaf falls, surrendered and certain of its eventual return to the soil.
+                       We chase the ghosts of 'what if' until we forget the vibrant 'what is' breathing right beside us.
+                       Hold onto the sparks of joy, for they are the only maps we have through the encroaching dark.
+                       In the end, we are but a collection of moments, tied together with the fragile silk of breath.`,
+                img: "https://images.unsplash.com/photo-1476136230993-88a74599b428?q=80&w=1000",
+                likes: 12500,
+                shares: 3420,
+                comments: 890,
+                isLiked: false,
+                isProse: true
+            },
+            {
+                id: 1,
+                text: "The rose speaks of love silently, in a language known only to the heart.",
+                img: "https://images.unsplash.com/photo-1559563458-527698bf5295?q=80&w=1000",
+                likes: 4502,
+                shares: 124,
+                comments: 56,
+                isLiked: false,
+                isProse: false
+            }
+        ];
+
+        let totalFollowersCount = 1200000;
+        let following = false;
+
+        function renderPosts() {
+            const feed = document.getElementById('postFeed');
+            const existingCreatePost = feed.firstElementChild;
+            feed.innerHTML = '';
+            feed.appendChild(existingCreatePost);
+
+            postsData.forEach(post => {
+                const postEl = document.createElement('div');
+                postEl.className = "bg-white rounded-lg fb-shadow overflow-hidden mb-4";
+                postEl.innerHTML = `
+                    <div class="p-4 flex gap-3 items-center">
+                        <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=100" class="w-10 h-10 rounded-full border">
+                        <div>
+                            <p class="font-bold">Poetry World</p>
+                            <p class="text-xs text-gray-500">Just now • 🌎</p>
+                        </div>
+                    </div>
+                    <div class="px-4 pb-3 ${post.isProse ? 'prose-font text-gray-700' : 'italic text-lg leading-relaxed'}">
+                        ${post.isProse ? post.text.split('\n').map(line => `<p class="mb-1">${line.trim()}</p>`).join('') : `"${post.text}"`}
+                    </div>
+                    <img src="${post.img}" class="w-full h-80 object-cover border-y">
+                    
+                    <div class="px-4 py-2 flex justify-between text-gray-500 text-sm border-b">
+                        <div class="flex items-center gap-1">
+                            <span class="bg-[#1877f2] text-white rounded-full p-1 text-[8px]">👍</span>
+                            <span id="like-count-${post.id}">${formatNum(post.likes)}</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <span>${post.comments} comments</span>
+                            <span>${post.shares} shares</span>
+                        </div>
+                    </div>
+
+                    <div class="flex p-1">
+                        <button onclick="handleLike(${post.id})" class="flex-grow py-2 hover-gray rounded-md flex justify-center items-center gap-2 ${post.isLiked ? 'liked-btn' : 'text-gray-600 font-semibold'}">
+                            👍 Like
+                        </button>
+                        <button onclick="handleComment(${post.id})" class="flex-grow py-2 hover-gray rounded-md flex justify-center items-center gap-2 text-gray-600 font-semibold">
+                            💬 Comment
+                        </button>
+                        <button onclick="handleShare(${post.id})" class="flex-grow py-2 hover-gray rounded-md flex justify-center items-center gap-2 text-gray-600 font-semibold">
+                            ↪️ Share
+                        </button>
+                    </div>
+                `;
+                feed.appendChild(postEl);
+            });
+        }
+
+        // Logic Functions
+        function handleLike(id) {
+            const post = postsData.find(p => p.id === id);
+            post.isLiked = !post.isLiked;
+            post.likes += post.isLiked ? 1 : -1;
+            renderPosts();
+        }
+
+        function handleShare(id) {
+            const post = postsData.find(p => p.id === id);
+            post.shares += 1;
+            renderPosts();
+            showToast("Shared to your timeline!");
+        }
+
+        function handleComment(id) {
+            const post = postsData.find(p => p.id === id);
+            post.comments += 1;
+            renderPosts();
+            showToast("Comment posted!");
+        }
+
+        function handleFollow() {
+            following = !following;
+            const btn = document.getElementById('followBtn');
+            if (following) {
+                totalFollowersCount++;
+                btn.innerText = "Following";
+                btn.className = "bg-gray-200 text-black px-6 py-2 rounded-md font-bold transition-all";
+            } else {
+                totalFollowersCount--;
+                btn.innerText = "Follow";
+                btn.className = "bg-[#1877f2] text-white px-6 py-2 rounded-md font-bold hover:bg-[#166fe5] transition-all";
+            }
+            document.getElementById('totalFollowers').innerText = `${formatNum(totalFollowersCount)} followers • 45 following`;
+        }
+
+        function formatNum(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num;
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2000);
+        }
+
+        window.onload = renderPosts;
+    </script>
 </body>
 </html>
